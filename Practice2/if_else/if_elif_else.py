@@ -9,3 +9,9 @@ elif age < 65:
 elif age >= 65:
   print("You are a senior")
 
+a = 33
+b = 33
+if b > a:
+  print("b is greater than a")
+elif a == b:
+  print("a and b are equal")
