@@ -1,4 +1,4 @@
-CREATE OR REPLACE PROCEDURE upsert_contact(p_name VARCHAR, p_phone VARCHAR)
+CREATE OR REPLACE PROCEDURE upsert_contact(p_name TEXT[], p_phone TEXT[])
 LANGUAGE plpgsql AS $$
 BEGIN
     IF EXISTS (SELECT 1 FROM contacts WHERE name = p_name) THEN
