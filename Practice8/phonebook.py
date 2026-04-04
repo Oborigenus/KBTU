@@ -32,7 +32,13 @@ def bulk_insert():
 
 
 while True:
-    print("\n1.Insert/Update\n2.Search\n3.Paginate\n4.Delete\n5.Bulk Insert\n0.Exit")
+    print("\n--- PHONEBOOK MENU ---")
+    print("1. Insert/Update")
+    print("2. Search")
+    print("3. Paginate")
+    print("4. Delete")
+    print("5. Bulk Insert")
+    print("0. Exit")
     choice = input("Choose: ")
 
     if choice == "1":

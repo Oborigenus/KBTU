@@ -1,4 +1,4 @@
-import csv
+from csv import DictReader
 from connect import connect
 
 
@@ -10,7 +10,7 @@ cur = conn.cursor()
 
 def insert_from_csv(filename):
     with open(filename, 'r', encoding='utf-8') as f:
-        reader = csv.DictReader(f)
+        reader = DictReader(f)
         for row in reader:
             cur.execute(
                 "INSERT INTO contacts (name, phone) VALUES (%s, %s) ON CONFLICT (name) DO NOTHING",
