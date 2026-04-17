@@ -1,3 +1,14 @@
+CREATE OR REPLACE PROCEDURE delete_contact(value TEXT)
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    DELETE FROM contacts
+    WHERE name = value OR phone = value;
+END;
+$$;
+
+
+
 CREATE OR REPLACE PROCEDURE upsert_contact(p_name TEXT[], p_phone TEXT[])
 LANGUAGE plpgsql AS $$
 BEGIN
@@ -19,7 +30,6 @@ DECLARE
 BEGIN
     FOR i IN 1..array_length(names, 1) LOOP
         
-        -- phone validation (only digits, length 10-15)
         IF phones[i] ~ '^[0-9]{10,15}$' THEN
             
             IF EXISTS (SELECT 1 FROM contacts WHERE name = names[i]) THEN

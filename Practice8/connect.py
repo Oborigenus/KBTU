@@ -1,4 +1,4 @@
-import psycopg2
+import psycopg2 
 from config import DB_CONFIG
 
 def connect():

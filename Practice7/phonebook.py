@@ -98,7 +98,7 @@ while True:
     elif choice == "3":
         update_contact()
     elif choice == "4":
-         query_contacts()
+        query_contacts()
     elif choice == "5":
         delete_contact()
     elif choice == "0":
