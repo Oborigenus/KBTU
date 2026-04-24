@@ -23,12 +23,10 @@ class Clock:
             y1 = self.center[1] - (self.radius - 10) * math.cos(angle)
 
             if i % 5 == 0:
-                # big tick
                 x2 = self.center[0] + (self.radius - 30) * math.sin(angle)
                 y2 = self.center[1] - (self.radius - 30) * math.cos(angle)
                 width = 4
             else:
-                # small tick
                 x2 = self.center[0] + (self.radius - 20) * math.sin(angle)
                 y2 = self.center[1] - (self.radius - 20) * math.cos(angle)
                 width = 2
