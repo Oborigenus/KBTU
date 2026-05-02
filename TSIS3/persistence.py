@@ -1,30 +1,69 @@
-import json, os
+import json
+from pathlib import Path
 
-DEFAULT_SETTINGS={"sound":True,"difficulty":"normal","car_color":"red"}
+SETTINGS_FILE = Path("settings.json")
+LEADERBOARD_FILE = Path("leaderboard.json")
+
+DEFAULT_SETTINGS = {
+    "sound": True,
+    "car_color": "blue",
+    "difficulty": "normal"
+}
 
 
 def load_settings():
-    if not os.path.exists("settings.json"):
-        return DEFAULT_SETTINGS
-    with open("settings.json") as f:
-        return json.load(f)
+    if not SETTINGS_FILE.exists():
+        save_settings(DEFAULT_SETTINGS)
+        return DEFAULT_SETTINGS.copy()
+
+    try:
+        with open(SETTINGS_FILE, "r", encoding="utf-8") as file:
+            settings = json.load(file)
+    except json.JSONDecodeError:
+        settings = DEFAULT_SETTINGS.copy()
+
+    for key, value in DEFAULT_SETTINGS.items():
+        settings.setdefault(key, value)
+
+    return settings
 
 
-def save_settings(s):
-    with open("settings.json","w") as f:
-        json.dump(s,f,indent=4)
+def save_settings(settings):
+    with open(SETTINGS_FILE, "w", encoding="utf-8") as file:
+        json.dump(settings, file, indent=4)
 
 
-def load_scores():
-    if not os.path.exists("leaderboard.json"):
+def load_leaderboard():
+    if not LEADERBOARD_FILE.exists():
+        save_leaderboard([])
         return []
-    with open("leaderboard.json") as f:
-        return json.load(f)
+
+    try:
+        with open(LEADERBOARD_FILE, "r", encoding="utf-8") as file:
+            data = json.load(file)
+            if isinstance(data, list):
+                return data
+            return []
+    except json.JSONDecodeError:
+        return []
 
 
-def save_score(name, score, distance):
-    data = load_scores()
-    data.append({"name":name,"score":score,"distance":distance})
-    data = sorted(data,key=lambda x:x["score"],reverse=True)[:10]
-    with open("leaderboard.json","w") as f:
-        json.dump(data,f,indent=4)
+def save_leaderboard(scores):
+    with open(LEADERBOARD_FILE, "w", encoding="utf-8") as file:
+        json.dump(scores, file, indent=4)
+
+
+def add_score(name, score, distance, coins):
+    scores = load_leaderboard()
+
+    scores.append({
+        "name": name,
+        "score": score,
+        "distance": distance,
+        "coins": coins
+    })
+
+    scores.sort(key=lambda item: item["score"], reverse=True)
+    scores = scores[:10]
+
+    save_leaderboard(scores)

@@ -8,7 +8,7 @@ SMALL_FONT = pygame.font.SysFont("Arial", 20)
 
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
-GRAY = (190, 190, 190)
+GRAY = (200, 200, 200)
 DARK_GRAY = (80, 80, 80)
 BLUE = (50, 130, 230)
 GREEN = (40, 180, 80)
@@ -17,6 +17,7 @@ YELLOW = (230, 210, 50)
 
 
 class Button:
+    """Simple button made only with pygame."""
     def __init__(self, text, rect, color=BLUE):
         self.text = text
         self.rect = pygame.Rect(rect)
@@ -27,9 +28,9 @@ class Button:
 
         if self.rect.collidepoint(mouse_pos):
             color = (
-                min(self.color[0] + 30, 255),
-                min(self.color[1] + 30, 255),
-                min(self.color[2] + 30, 255)
+                min(self.color[0] + 25, 255),
+                min(self.color[1] + 25, 255),
+                min(self.color[2] + 25, 255)
             )
         else:
             color = self.color
@@ -59,20 +60,16 @@ def draw_text(screen, text, x, y, color=BLACK, font=FONT, center=False):
         screen.blit(surface, (x, y))
 
 
-def draw_title(screen, text, width):
-    draw_text(screen, text, width // 2, 80, BLACK, BIG_FONT, center=True)
-
-
-def get_text_input(screen, clock, width, height):
-    name = ""
+def get_username(screen, clock, width, height):
+    """Username entry screen using pygame keyboard typing."""
+    username = ""
 
     while True:
         screen.fill((235, 235, 235))
 
-        draw_text(screen, "Enter your name", width // 2, 180, BLACK, BIG_FONT, center=True)
-        draw_text(screen, name + "|", width // 2, 280, BLACK, FONT, center=True)
-        draw_text(screen, "Press ENTER to start", width // 2, 340, DARK_GRAY, SMALL_FONT, center=True)
-        draw_text(screen, "Press ESC to go back", width // 2, 380, DARK_GRAY, SMALL_FONT, center=True)
+        draw_text(screen, "Enter username", width // 2, 180, BLACK, BIG_FONT, center=True)
+        draw_text(screen, username + "|", width // 2, 280, BLACK, FONT, center=True)
+        draw_text(screen, "ENTER = continue, ESC = back", width // 2, 340, DARK_GRAY, SMALL_FONT, center=True)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -80,19 +77,19 @@ def get_text_input(screen, clock, width, height):
 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_RETURN:
-                    if name.strip():
-                        return name.strip()
+                    if username.strip():
+                        return username.strip()
                     return "Player"
-
-                elif event.key == pygame.K_BACKSPACE:
-                    name = name[:-1]
 
                 elif event.key == pygame.K_ESCAPE:
                     return None
 
+                elif event.key == pygame.K_BACKSPACE:
+                    username = username[:-1]
+
                 else:
-                    if len(name) < 12 and event.unicode.isprintable():
-                        name += event.unicode
+                    if len(username) < 15 and event.unicode.isprintable():
+                        username += event.unicode
 
         pygame.display.flip()
         clock.tick(60)
